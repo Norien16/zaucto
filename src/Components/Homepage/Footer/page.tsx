@@ -12,7 +12,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand Section */}
           <div className="md:col-span-1">
-            <h2 className="text-2xl font-bold text-yellow-500 mb-2">Zaucta</h2>
+            <h2 className="text-2xl font-bold text-[#d3af37] mb-2">Zaucto</h2>
             <p className="text-gray-600 text-sm mb-6">
               The smart way to procure chemicals is here...
             </p>
@@ -109,7 +109,7 @@ const Footer = () => {
                 placeholder="Email Address"
                 className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500"
               />
-              <button className="px-4 py-2 bg-yellow-500 text-white text-sm rounded-r-md hover:bg-yellow-600 transition-colors">
+              <button className="px-4 py-2 bg-[#d3af37] text-white text-sm rounded-r-md hover:bg-yellow-600 transition-colors">
                 →
               </button>
             </div>

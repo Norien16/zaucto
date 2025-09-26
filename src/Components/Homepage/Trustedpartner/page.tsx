@@ -1,17 +1,23 @@
 "use client";
 import React from "react";
+import { DM_Sans, Playfair_Display } from "next/font/google";
 
-/**
- * TrustedPartners.tsx
- *
- * - Replace the items in `logos` with your actual logo paths (SVG/PNG).
- * - The container has a subtle top border and a light background band.
- * - Logos are centered, evenly spaced and scale responsively.
- * - The second word in the heading is gold+italic to match your design.
- */
+// load DM Sans (general text) and Playfair Display (italic heading part)
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-dm-sans",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  style: ["italic", "normal"],
+  variable: "--font-playfair",
+});
 
 export default function Trustedpartners() {
-  // replace these with your real logo file paths (SVG preferred)
+  // 10 logos
   const logos = [
     "/im1.png",
     "/im2.png",
@@ -21,47 +27,46 @@ export default function Trustedpartners() {
     "/im2.png",
     "/im3.png",
     "/im4.png",
+    "/im1.png",
+    "/im2.png",
   ];
 
   return (
-    <section className="bg-white">
-      {/* Top thin border line (matches image) */}
+    <section className={`bg-white ${dmSans.variable} font-sans`}>
+      {/* Top thin border line */}
       <div className="border-t border-gray-200" />
 
       {/* Light band with content */}
-      <div className="bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 py-10 md:py-14">
+      <div className="bg-[#F8F8F8]">
+        <div className="max-w-7xl mx-auto px-6 py-10 md:py-10">
           {/* Heading */}
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">
-              <span className="mr-2">Trusted</span>
-              <span className="italic text-gold">Partners</span>
+          <div className="text-center mb-[-25]">
+            <h2 className="text-3xl md:text-4xl  text-gray-900">
+              <span className="mr-2 font-bold">Trusted</span>
+              <span className={`${playfair.variable} font-serif italic text-gold`}>
+                Partners
+              </span>
             </h2>
           </div>
+        </div>
 
-          {/* Logo row */}
-          <div className="flex items-center justify-center">
-            <div className="w-full overflow-hidden">
-              {/* container to keep logos centered and spaced like the reference */}
-              <div className="flex items-center justify-center gap-8 md:gap-12 lg:gap-16">
-                {logos.map((src, i) => (
-                  <div
-                    key={i}
-                    className="flex-shrink-0 flex items-center justify-center"
-                    aria-hidden={true}
-                  >
-                    {/* Using <img> lets you drop in SVGs or PNGs; height controls scale */}
-                    <img
-                      src={src}
-                      alt={`partner-${i}`}
-                      className="h-10 md:h-14 lg:h-16 object-contain"
-                      // Improve rendering for SVGs/PNGs with transparency
-                      style={{ filter: "contrast(1)" }}
-                    />
-                  </div>
-                ))}
+        {/* Full-width logo row */}
+        <div className="w-full overflow-hidden py-10">
+          <div className="flex flex-wrap items-center justify-center gap-10 md:gap-14 px-6 md:px-12">
+            {logos.map((src, i) => (
+              <div
+                key={i}
+                className="flex-shrink-0 flex items-center justify-center flex-1 min-w-[80px] max-w-[120px]"
+                aria-hidden={true}
+              >
+                <img
+                  src={src}
+                  alt={`partner-${i}`}
+                  className="h-8 md:h-12 lg:h-14 object-contain"
+                  style={{ filter: "contrast(1)" }}
+                />
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

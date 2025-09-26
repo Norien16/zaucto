@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 export default function Banner() {
   return (
-    <div className="w-[92%] ml-[4%] relative bg-[url('/Zacban.webp')] bg-cover bg-center h-[600px] flex items-center justify-center rounded-2xl overflow-hidden">
+    <div className="w-[92%] ml-[4%] relative bg-[url('/Zacban.webp')] bg-cover bg-center h-[600px] flex items-center justify-center rounded-2xl ">
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/10"></div>
 

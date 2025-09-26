@@ -2,11 +2,23 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { DM_Sans, Playfair_Display } from "next/font/google";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["italic", "normal"],
+});
 
 const sampleItems = Array.from({ length: 6 }).map((_, i) => ({
   id: i + 1,
   title: "Petrochemical Solution",
-  image: "/sample-chem.jpg",
+  image: "/bottle.png", // use your image path
   status: i % 3 === 0 ? "live" : i % 3 === 1 ? "upcoming" : "completed",
   bid: "$3,780",
   lot: `Lot # ${25896752 + i}`,
@@ -16,14 +28,16 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<
     "all" | "live" | "upcoming" | "completed"
   >("all");
-  const [topSection, setTopSection] = useState<"auctions" | "rfqs">("auctions");
+  const [topSection, setTopSection] = useState<"auctions" | "rfqs">(
+    "auctions"
+  );
 
   const filtered = sampleItems.filter((it) =>
     activeTab === "all" ? true : it.status === activeTab
   );
 
   return (
-    <main className="min-h-screen bg-white py-10">
+    <main className={`${dmSans.className} min-h-screen bg-white py-10`}>
       <div className="w-[76%] mx-auto">
         {/* Header */}
         <div className="flex items-start justify-between gap-6">
@@ -31,7 +45,11 @@ export default function Home() {
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 leading-tight">
               <span className="font-bold">Auction</span>{" "}
-              <span className="text-[#CFAC35] italic font-serif">Showcase</span>
+              <span
+                className={`${playfair.className} text-[#CFAC35] italic`}
+              >
+                Showcase
+              </span>
             </h1>
 
             <div className="w-[100%]">
@@ -85,9 +103,8 @@ export default function Home() {
                     { id: "completed", label: "Completed" },
                   ] as const
                 ).map((t) => {
-                  // Wider sizes for live/upcoming/completed
                   const sizeClass =
-                    t.id === "all" ? "px-6 py-2" : "px-9 py-2"; // all = smaller, others = wider
+                    t.id === "all" ? "px-6 py-2" : "px-9 py-2";
                   const isActive = activeTab === t.id;
                   return (
                     <button
@@ -96,7 +113,7 @@ export default function Home() {
                       className={`${sizeClass} text-lg font-medium rounded-md transition ${
                         isActive
                           ? "bg-gradient-to-r from-[#D3AF37] to-[#7B6300] bg-clip-text text-transparent"
-                          : "text-gray-700"
+                          : "bg-gradient-to-r from-[#D3AF37] to-[#7B6300] bg-clip-text text-transparent"
                       }`}
                       style={{ position: "relative" }}
                       aria-pressed={isActive}
@@ -147,13 +164,13 @@ export default function Home() {
           {filtered.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md overflow-hidden transition flex flex-col h-full"
+              className="relative bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md overflow-visible transition flex flex-col h-full"
             >
               {/* Image & overlay */}
               <div className="relative h-56 mt-2 w-full flex justify-center items-center overflow-hidden rounded-t-lg">
                 <div className="relative h-59 w-[97%]">
                   <Image
-                    src="/bottle.png"
+                    src={item.image}
                     alt={item.title}
                     fill
                     className="object-cover rounded-lg"
@@ -176,48 +193,50 @@ export default function Home() {
                     ? "Upcoming"
                     : "Completed"}
                 </span>
+              </div>
 
-                {/* Countdown pill - wider */}
-                <div className="absolute  bottom-[-20] left-1/2 transform -translate-x-1/2 bg-white/95 rounded-full px-6 py-2 flex items-center gap-4 text-[12px] shadow-sm ">
-                  <div className="text-center">
-                    <div className="font-bold">00</div>
-                    <div className="text-gray-400">Days</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-bold">00</div>
-                    <div className="text-gray-400">Hours</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-bold">00</div>
-                    <div className="text-gray-400">Min</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-bold">00</div>
-                    <div className="text-gray-400">Sec</div>
-                  </div>
+              {/* Countdown pill */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2 -top-6 z-20 bg-white/95 rounded-full px-6 py-2 flex items-center gap-4 text-[12px] shadow-sm
+                           md:top-47 md:px-8"
+              >
+                <div className="text-center">
+                  <div className="font-bold">00</div>
+                  <div className="text-gray-400">Days</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold">00</div>
+                  <div className="text-gray-400">Hours</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold">00</div>
+                  <div className="text-gray-400">Min</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-bold">00</div>
+                  <div className="text-gray-400">Sec</div>
                 </div>
               </div>
 
               {/* Content */}
               <div className="p-4 flex-1 flex flex-col">
-                <h3 className="font-semibold text-gray-900">{item.title}</h3>
+                <h3 className="font-semibold text-xl text-gray-900">{item.title}</h3>
 
-                {/* Current Bid + Lot Number row */}
                 <div className="mt-3 flex items-center justify-between">
                   <div>
-                    <p className="text-xs text-gray-500">Current Bid at:</p>
+                    <p className="text-medium text-gray-500">Current Bid at:</p>
                     <div className="text-2xl font-bold text-black">
                       {item.bid}
                     </div>
                   </div>
-                  <span className="text-xs px-4 py-1 rounded bg-gray-100 text-gray-600 min-w-[92px] text-center">
+                  <span className="text-s px-6 py-2 rounded bg-gray-100 text-gray-600 min-w-[92px] text-center">
                     {item.lot}
                   </span>
                 </div>
 
                 <div className="mt-4">
                   <button
-                    className="w-full text-white py-2 rounded-md text-sm font-semibold transition"
+                    className="w-full text-white py-3 rounded-md text-sm font-semibold transition"
                     style={{
                       background:
                         "linear-gradient(180deg,#CDA83C 0%,#B8861B 100%)",

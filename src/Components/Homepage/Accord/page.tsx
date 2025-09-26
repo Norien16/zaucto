@@ -1,10 +1,6 @@
 "use client";
 import React, { useState } from "react";
 
-// FAQAccordion component - Next.js + TypeScript + Tailwind
-// Drop this file into a Next.js app (e.g. components/FAQAccordion.tsx)
-// Requires TailwindCSS configured in the project.
-
 type FAQ = {
   id: number;
   question: string;
@@ -52,6 +48,7 @@ export default function Accord() {
   return (
     <section className="bg-white mt-20">
       <div className="max-w-4xl mx-auto px-6">
+        {/* Heading */}
         <div className="text-center mb-10">
           <h2 className="inline-block text-5xl font-extrabold text-[#0B0C0c] mr-2">
             Frequently
@@ -66,13 +63,14 @@ export default function Accord() {
           </span>
         </div>
 
-        <div className="space-y-4">
+        {/* FAQ List */}
+        <div className="space-y-6">
           {faqs.map((faq) => {
             const isOpen = openId === faq.id;
             return (
               <div
                 key={faq.id}
-                className={`bg-white rounded-xl border border-gray-200`}
+                className="bg-white rounded-xl border border-gray-200"
               >
                 <button
                   onClick={() => toggle(faq.id)}
@@ -80,57 +78,56 @@ export default function Accord() {
                   aria-expanded={isOpen}
                   aria-controls={`faq-${faq.id}`}
                 >
-                  <div className="text-left">
-                    <h3 className="text-xl pt-3 font-bold text-[#0B0c0c]">
-                      {faq.question}
-                    </h3>
-                  </div>
+                  {/* Question */}
+                  <h3 className="text-xl mt-5 font-bold text-[#0B0c0c]">
+                    {faq.question}
+                  </h3>
 
-                  <div className="ml-4 flex-shrink-0">
-                    {/* circular icon like the design */}
-                    <span
-                      className={`inline-flex items-center justify-center h-9 w-9 rounded-full border border-yellow-200 shadow-sm ${
-                        isOpen
-                          ? "bg-yellow-600 text-white"
-                          : "bg-yellow-50 text-yellow-700"
-                      }`}
-                    >
-                      {/* plus/minus icon */}
-                      {isOpen ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M4 10a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      )}
-                    </span>
-                  </div>
+                  {/* Icon Circle */}
+                  <span
+                    className={`inline-flex items-center mt-5 justify-center h-9 w-9 rounded-full border border-yellow-200 shadow-sm transition-colors ${
+                      isOpen
+                        ? "bg-gradient-to-l from-[#D3AF37] to-[#7B6300]"
+                        : "bg-[#D3AF37]"
+                    }`}
+                  >
+                    {isOpen ? (
+                      // minus icon
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4 10a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    ) : (
+                      // plus icon
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    )}
+                  </span>
                 </button>
 
+                {/* Answer */}
                 <div
                   id={`faq-${faq.id}`}
-                  className={`px-6 pb-6 transition-[max-height,opacity] shadow-lg shadow-gray-200 duration-300 ease-in-out overflow-hidden ${
-                    isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+                  className={`px-6 pb-5 transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden ${
+                    isOpen ? "max-h-screen opacity-100 shadow-lg shadow-gray-200" : "max-h-0 opacity-0"
                   }`}
                 >
                   <p className="text-[#666666] leading-relaxed">{faq.answer}</p>
@@ -141,7 +138,6 @@ export default function Accord() {
         </div>
 
         <style jsx global>{`
-          /* Include a serif display font for the "Asked Questions" bit. Add to _document or global if you prefer. */
           @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap");
         `}</style>
       </div>

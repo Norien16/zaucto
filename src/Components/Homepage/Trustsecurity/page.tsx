@@ -1,15 +1,33 @@
 // pages/index.tsx
 import Image from "next/image";
+import { DM_Sans, Playfair_Display } from "next/font/google";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dm-sans",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["italic", "normal"],
+  variable: "--font-playfair",
+});
 
 export default function TrustSecurity() {
   return (
-    <main className="bg-white text-gray-900 antialiased min-h-screen flex items-start justify-center py-16 px-6">
+    <main
+      className={`${dmSans.className} bg-white text-gray-900 antialiased min-h-screen flex items-start justify-center py-16 px-6`}
+    >
       <div className="w-full max-w-6xl px-6 grid md:grid-cols-2 gap-10">
         {/* LEFT: Text content */}
         <div className="pr-8">
           <h2 className="text-4xl md:text-5xl font-extrabold leading-tight whitespace-nowrap">
             Built for{" "}
-            <span className="text-[#CFAC35] italic">Trust & Security</span>
+            <span className={`${playfair.className} text-[#CFAC35] italic`}>
+              Trust & Security
+            </span>
           </h2>
 
           <p className="mt-4 text-gray-500 max-w-lg text-base font-medium">
@@ -49,32 +67,36 @@ export default function TrustSecurity() {
           {/* Left column: Card 1 & 3 */}
           <div className="flex flex-col gap-6 translate-y-8">
             {/* Card 1 */}
-            <div className="border rounded-xl p-6 shadow-sm w-[250px] h-[250px] flex flex-col justify-between text-left">
+            <div className="border border-[#EFEFEF] rounded-xl p-6 w-[250px] h-[250px] flex flex-col justify-between text-left">
               <Image
                 src="/lock.png"
                 alt="SOC 2"
-                width={48}
-                height={48}
+                width={50}
+                height={50}
                 className="mb-2"
               />
               <div>
                 <h4 className="font-bold text-2xl">SOC 2 Type II</h4>
-                <p className="text-gray-600 text-xl">Security compliance certified</p>
+                <p className="text-gray-600 text-xl">
+                  Security compliance certified
+                </p>
               </div>
             </div>
 
             {/* Card 3 */}
-            <div className="border rounded-xl p-6 shadow-sm w-[250px] h-[250px] flex flex-col justify-between text-left">
+            <div className="border border-[#EFEFEF] rounded-xl p-6 w-[250px] h-[250px] flex flex-col justify-between text-left">
               <Image
                 src="/lock1.png"
                 alt="GDPR"
-                width={48}
-                height={48}
+                width={60}
+                height={40}
                 className="mb-2"
               />
               <div>
                 <h4 className="font-bold text-2xl">GDPR Compliant</h4>
-                <p className="text-gray-600 text-xl">Data protection certified</p>
+                <p className="text-gray-600 text-xl">
+                  Data protection certified
+                </p>
               </div>
             </div>
           </div>
@@ -82,12 +104,12 @@ export default function TrustSecurity() {
           {/* Right column: Card 2 & 4 */}
           <div className="flex flex-col gap-6 translate-y-16">
             {/* Card 2 */}
-            <div className="border rounded-xl p-6 shadow-sm w-[250px] h-[250px] flex flex-col justify-between text-left">
+            <div className="border border-[#EFEFEF] rounded-xl p-6 w-[250px] h-[250px] flex flex-col justify-between text-left">
               <Image
-                src="/pss.png"
+                src="/iso.png"
                 alt="ISO"
-                width={48}
-                height={48}
+                width={50}
+                height={40}
                 className="mb-2"
               />
               <div>
@@ -99,12 +121,12 @@ export default function TrustSecurity() {
             </div>
 
             {/* Card 4 */}
-            <div className="border rounded-xl p-6 shadow-sm w-[250px] h-[250px] flex flex-col justify-between text-left">
+            <div className="border border-[#EFEFEF] rounded-xl p-6 w-[250px] h-[250px] flex flex-col justify-between text-left">
               <Image
-                src="/iso.png"
+                src="/pss.png"
                 alt="PCI DSS"
-                width={48}
-                height={48}
+                width={80}
+                height={60}
                 className="mb-2"
               />
               <div>
