@@ -6,6 +6,7 @@ import Blogart from "@/Components/Homepage/Blogart/page";
 import Cards from "@/Components/Homepage/Cards/page";
 import Chemical from "@/Components/Homepage/Chemical/page";
 import Datasecure from "@/Components/Homepage/Datasecure/page";
+
 import Footer from "@/Components/Homepage/Footer/page";
 import Header from "@/Components/Homepage/Header/page";
 import Insdustry from "@/Components/Homepage/Industryleader/page";
@@ -31,6 +32,10 @@ export default function Home() {
     <Trustedpartners/>
     <Accord/>
     <Footer/>
+  
+    
+    
+    
     
     </>
   );

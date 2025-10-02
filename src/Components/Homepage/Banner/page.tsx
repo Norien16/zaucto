@@ -29,10 +29,10 @@ export default function Banner() {
       </div>
 
       {/* Bottom Right Floating Button */}
-      <div className="fixed bottom-10 right-25 z-50">
-        <button className="flex items-center gap-2 bg-gradient-to-r from-[#D3AF37] to-[#7B6300] hover:bg-yellow-700 text-white font-medium pl-9 pr-3 py-8 rounded-lg text-xl shadow-lg transition">
+      <div className="fixed bottom-30 right-25 z-50">
+        <button className="flex items-center gap-2 bg-gradient-to-r from-[#D3AF37] to-[#7B6300] hover:bg-yellow-700 text-white font-medium pl-9 pr-3 py-6 rounded-lg text-xl shadow-lg transition">
           Any query?
-          <span className="bg-white text-yellow-600 rounded-full w-18 h-5 ml-7 flex items-center  text-sm font-bold">
+          <span className="bg-white text-yellow-600 rounded-full w-16 h-3 ml-7 flex items-center  text-sm font-bold">
            <Image
   src="/Query.png"
   alt="hii"

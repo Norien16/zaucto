@@ -32,12 +32,12 @@ export default function Chemical() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* ===================== FIRST CARD ===================== */}
         <div
-          className="relative left-20 p-6 rounded-2xl flex flex-col md:flex-row items-center bg-no-repeat"
+          className="relative left-30 p-6 rounded-2xl flex flex-col md:flex-row items-center bg-no-repeat"
           style={{
             backgroundImage: "url(/ybg.png)",
             backgroundSize: "contain",
-            width: "780px",
-            height: "600px",
+            width: "790px",
+            height: "605px",
             backgroundPosition: "center",
           }}
         >
@@ -94,11 +94,11 @@ export default function Chemical() {
 
         {/* ===================== SECOND CARD ===================== */}
         <div
-          className="relative p-15 -mt-15 left-40 rounded-2xl flex flex-col items-center bg-no-repeat"
+          className="relative p-15 -mt-12 left-35 rounded-2xl flex flex-col items-center bg-no-repeat"
           style={{
             backgroundImage: "url(/bbg.png)",
             backgroundSize: "contain",
-            width: "350px",
+            width: "380px",
             height: "700px",
             backgroundPosition: "center",
           }}
@@ -139,7 +139,7 @@ export default function Chemical() {
       </div>
 
       {/* Pagination Dots */}
-      <div className="flex justify-center gap-2 -mt-20  p-15">
+      <div className="flex justify-center ml-40 gap-2 -mt-55  p-20">
         <span className="w-3 h-3 bg-amber-600 rounded-full"></span>
         <span className="w-3 h-3 bg-gray-400 rounded-full"></span>
         <span className="w-3 h-3 bg-gray-400 rounded-full"></span>

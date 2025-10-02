@@ -1,154 +1,203 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useCallback, useMemo } from "react";
+import Image from "next/image";
 import { DM_Sans, Playfair_Display } from "next/font/google";
 
 const dm = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"] });
-const playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "700"] });
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["italic"],
+});
 
-const testimonials = [
+const TESTIMONIALS = [
   {
     id: 1,
     quote:
-      "“This platform has revolutionized our procurement process. We have achieved 30% cost savings while maintaining quality standards. The reverse auction format brings out the best competitive pricing from our suppliers.”",
+      "This platform has revolutionized our procurement process. We have achieved 30% cost savings while maintaining quality standards. The reverse auction format brings out the best competitive pricing from our suppliers.",
     name: "David Chen",
     title: "Chief Procurement Officer, TechCorp Industries",
-    avatar: "/avatars/avatar1.png",
+    avatar: "/sara.png",
+    rating: 5,
   },
   {
     id: 2,
     quote:
-      "“The transparency and efficiency of this platform is unmatched. Our suppliers love the fair competition, and we love the significant cost reductions. It's a win–win for everyone involved.”",
+      "The transparency and efficiency of this platform is unmatched. Our suppliers love the fair competition, and we love the significant cost reductions. It's a win–win for everyone involved.",
     name: "Sarah Martinez",
     title: "VP of Operations, Global Manufacturing",
-    avatar: "/avatars/avatar2.png",
+    avatar: "/Michel.png",
+    rating: 5,
   },
   {
     id: 3,
     quote:
-      "“We've processed over $50M in procurement through this platform. The analytics, supplier vetting, and contract management tools have streamlined our entire operation.”",
+      "We've processed over $50M in procurement through this platform. The analytics, supplier vetting, and contract management tools have streamlined our entire operation.",
     name: "Michael Thompson",
     title: "Strategic Sourcing Director, Enterprise Solutions",
-    avatar: "/avatars/avatar3.png",
+    avatar: "/sara.png",
+    rating: 5,
   },
 ];
 
+function ArrowSVG({ direction = "left", size = 20 }: { direction?: "left" | "right"; size?: number }) {
+  const rotate = direction === "left" ? 180 : 0;
+  return (
+    <svg
+      aria-hidden
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      style={{ transform: `rotate(${rotate}deg)` }}
+    >
+      <path d="M8 5l8 7-8 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Simple star renderer. value: number of filled stars (0..max). */
+function Stars({ value = 5, max = 5 }: { value?: number; max?: number }) {
+  const stars = Array.from({ length: max }, (_, i) => i < value);
+  const starColor = "#D3AF47"; // interpreted from your input
+  return (
+    <div className="flex items-center gap-1" aria-hidden>
+      {stars.map((filled, i) => (
+        <svg
+          key={i}
+          className="w-4 h-4"
+          viewBox="0 0 20 20"
+          fill={filled ? "currentColor" : "none"}
+          stroke="currentColor"
+          strokeWidth={filled ? 0 : 1.2}
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ color: starColor }}
+        >
+          <path
+            d="M10 1.5l2.6 5.26 5.81.84-4.2 4.09.99 5.77L10 14.77l-5.2 2.69.99-5.77L1.6 7.6l5.81-.84L10 1.5z"
+            fillRule="evenodd"
+            clipRule="evenodd"
+          />
+        </svg>
+      ))}
+      <span className="sr-only">{value} out of {max} stars</span>
+    </div>
+  );
+}
+
 export default function TrustedTestimonials() {
   const scroller = useRef<HTMLDivElement | null>(null);
+  const testimonials = useMemo(() => TESTIMONIALS, []);
 
-  const scrollBy = (direction: "left" | "right") => {
+  const scrollBy = useCallback((direction: "left" | "right") => {
     const el = scroller.current;
     if (!el) return;
-    const amount = el.clientWidth;
-    const target =
-      direction === "left" ? el.scrollLeft - amount : el.scrollLeft + amount;
+
+    const firstCard = el.querySelector<HTMLElement>(".three-card");
+    const GAP_PX = 32;
+    const cardWidth = firstCard ? firstCard.clientWidth + GAP_PX : el.clientWidth;
+    const target = direction === "left" ? el.scrollLeft - cardWidth : el.scrollLeft + cardWidth;
     el.scrollTo({ left: target, behavior: "smooth" });
-  };
+  }, []);
 
   return (
-    <section className={`${dm.className} dm-page relative bg-white`}>
-      <div className="border-t border-gray-200" />
+    <section className={`${dm.className} relative bg-white`}>
+      <div className="" />
 
-      <div className="bg-gray-50">
+      <div className="">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
           {/* Heading + controls */}
-          <div className="flex items-start justify-between mb-8">
+          <div className="flex items-start justify-between mb-8 gap-6">
             <div className="max-w-3xl">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900">
-                <span className="mr-2">Trusted By Industry</span>
-                <span className={`italic text-gold ${playfair.className}`}>
-                  Leaders
-                </span>
+              <h2 className="text-2xl md:text-5xl text-gray-900">
+                <span className="mr-2 font-bold">Trusted By Industry</span>
+                <span className={`${playfair.className} italic text-gold`}>Leaders</span>
               </h2>
               <p className="mt-3 text-gray-500">
-                Discover why procurement professionals choose our platform for
-                their most critical sourcing initiatives.
+                Discover why procurement professionals choose our platform for their most critical sourcing initiatives.
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 z-40">
               <button
-                aria-label="previous"
+                aria-label="previous testimonials"
                 onClick={() => scrollBy("left")}
-                className="w-10 h-10 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:shadow-sm"
+                className="w-10 h-10 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gold z-40"
               >
-                ‹
+                <span className="sr-only">Previous</span>
+                <ArrowSVG direction="left" />
               </button>
+
               <button
-                aria-label="next"
+                aria-label="next testimonials"
                 onClick={() => scrollBy("right")}
-                className="w-10 h-10 rounded-full bg-gold text-white flex items-center justify-center shadow-md"
+                className="w-10 h-10 rounded-full bg-gold text-white flex items-center justify-center shadow-md focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gold z-40"
               >
-                ›
+                <span className="sr-only">Next</span>
+                <ArrowSVG direction="right" />
               </button>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Cards */}
-          <div className="relative">
-            <div
-              ref={scroller}
-              className="cards-row flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-6"
-            >
-              {testimonials.map((t) => (
-                <blockquote
-                  key={t.id}
-                  className="three-card bg-white border border-gray-100 rounded-md p-6 flex-shrink-0 shadow-sm"
-                >
-                  <p className="text-gray-700 text-sm md:text-base leading-relaxed mb-6">
-                    {t.quote}
-                  </p>
+      {/* Full-width carousel row wrapped in overflow-hidden */}
+      <div className="relative overflow-hidden -mt-[3%] pb-20">
+        {/* Even stronger left fade overlay */}
+        <div
+          className="pointer-events-none absolute left-0 top-0 h-full z-30 fade-left"
+          aria-hidden
+        />
+        {/* Even stronger right fade overlay */}
+        <div
+          className="pointer-events-none absolute right-0 top-0 h-full z-30 fade-right"
+          aria-hidden
+        />
 
-                  <footer className="flex items-center gap-4">
-                    <img
-                      src={t.avatar}
-                      alt={t.name}
-                      className="w-12 h-12 rounded-full object-cover shadow-sm"
-                    />
-                    <div>
-                      <div className="text-gray-900 font-semibold">{t.name}</div>
-                      <div className="text-gray-500 text-sm">{t.title}</div>
-                      <div className="mt-2 flex items-center gap-1">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <svg
-                            key={i}
-                            className="w-4 h-4 text-gold"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.39 2.462a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118L10 13.347l-3.39 2.462c-.784.57-1.84-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.603 9.393c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69L9.05 2.927z" />
-                          </svg>
-                        ))}
-                      </div>
+        <div
+          ref={scroller}
+          className="no-scrollbar overflow-x-auto scroll-smooth relative z-10"
+          aria-label="client testimonials carousel"
+          role="region"
+        >
+          <div className="flex gap-8 cards-row px-6 md:px-12" style={{ alignItems: "stretch" }}>
+            {testimonials.map((t) => (
+              <article
+                key={t.id}
+                className="three-card snap-start bg-white rounded-2xl p-6 shadow-sm border border-gray-100 min-h-[320px]"
+                aria-labelledby={`testimonial-${t.id}-name`}
+                role="group"
+              >
+                <p className="text-gray-700 text-base md:text-lg mb-6">“{t.quote}”</p>
+
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 relative rounded-full overflow-hidden flex-shrink-0">
+                    <Image src={t.avatar} alt={`${t.name} avatar`} fill sizes="48px" className="object-cover" />
+                  </div>
+
+                  <div>
+                    <h3 id={`testimonial-${t.id}-name`} className="font-semibold text-gray-900">
+                      {t.name}
+                    </h3>
+                    <p className="text-sm text-gray-500">{t.title}</p>
+
+                    {/* Stars inserted here */}
+                    <div className="mt-2">
+                      <Stars value={t.rating ?? 5} max={5} />
                     </div>
-                  </footer>
-                </blockquote>
-              ))}
-            </div>
-
-            {/* Fade masks */}
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-20 md:w-28 bg-gradient-to-r from-gray-50 to-transparent" />
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-20 md:w-28 bg-gradient-to-l from-gray-50 to-transparent" />
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </div>
 
       <style jsx>{`
-        @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-
         :root {
           --gold: #cfa93e;
-          --gap: 80px; /* more spacing between cards */
-        }
-
-        .dm-page {
-          font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto,
-            "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-        }
-
-        .italic {
-          font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+          --gap: 32px;
         }
 
         .text-gold {
@@ -158,23 +207,67 @@ export default function TrustedTestimonials() {
           background: var(--gold);
         }
 
-        .cards-row {
-          display: flex;
-          gap: var(--gap);
-          -webkit-overflow-scrolling: touch;
-        }
-
-        .three-card {
-          flex: 0 0 calc((100% - (var(--gap) * 2)) / 3);
-          max-width: calc((100% - (var(--gap) * 2)) / 3);
-        }
-
         .no-scrollbar::-webkit-scrollbar {
           display: none;
         }
         .no-scrollbar {
           -ms-overflow-style: none;
           scrollbar-width: none;
+        }
+
+        .three-card {
+          flex: 0 0 calc((100vw - (var(--gap) * 2)) / 3);
+          max-width: calc((100vw - (var(--gap) * 2)) / 3);
+          scroll-snap-align: center;
+        }
+
+        .cards-row {
+          padding: 24px 0;
+        }
+
+        .three-card img {
+          display: block;
+        }
+
+        /* Much stronger, wider fades */
+        .fade-left,
+        .fade-right {
+          width: 120px; /* default width on mobile */
+        }
+
+        @media (min-width: 768px) {
+          .fade-left,
+          .fade-right {
+            width: 260px; /* much wider on md+ screens for a pronounced effect */
+          }
+        }
+
+        .fade-left {
+          left: 0;
+          background: linear-gradient(
+            90deg,
+            rgba(249, 250, 251, 1) 0%,
+            rgba(249, 250, 251, 1) 12%,
+            rgba(249, 250, 251, 0.95) 24%,
+            rgba(249, 250, 251, 0.8) 40%,
+            rgba(249, 250, 251, 0.55) 60%,
+            rgba(249, 250, 251, 0.25) 80%,
+            rgba(249, 250, 251, 0) 100%
+          );
+        }
+
+        .fade-right {
+          right: 0;
+          background: linear-gradient(
+            270deg,
+            rgba(249, 250, 251, 1) 0%,
+            rgba(249, 250, 251, 1) 12%,
+            rgba(249, 250, 251, 0.95) 24%,
+            rgba(249, 250, 251, 0.8) 40%,
+            rgba(249, 250, 251, 0.55) 60%,
+            rgba(249, 250, 251, 0.25) 80%,
+            rgba(249, 250, 251, 0) 100%
+          );
         }
       `}</style>
     </section>

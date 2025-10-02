@@ -229,7 +229,7 @@ export default function Home() {
                       {item.bid}
                     </div>
                   </div>
-                  <span className="text-s px-6 py-2 rounded bg-gray-100 text-gray-600 min-w-[92px] text-center">
+                  <span className="text-s px-6 py-2 rounded bg-[#01AA851A] text-gray-600 min-w-[92px] text-center">
                     {item.lot}
                   </span>
                 </div>
